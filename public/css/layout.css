@@ -1,0 +1,47 @@
+html,body{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+/*nav-left*/
+.left-side{
+  position: fixed;
+  width: 270px;
+  height: 100%;
+  background: rgb(45, 64, 84);
+  padding-top: 20px;
+  color: rgb(255, 255, 255);
+}
+.left-side .item{
+  padding: 0px 45px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 45px;
+  cursor: pointer;
+}
+.left-side .item a{
+  color: rgb(255, 255, 255);
+}
+.left-side .item.active{
+  background: rgb(67, 84, 102);
+}
+.left-side .item.active a{
+  color: rgb(0, 180, 207);
+}
+/*main=content*/
+.main-content{
+  position: relative;
+  margin-left: 270px;
+}
+.main-content .header-section{
+  position: fixed;
+  left: 280px;
+  top: 0;
+  width: 100%;
+  line-height: 50px;
+  background: rgb(255, 255, 255);
+}
+.main-content .wrapper{
+  padding: 60px 10px 30px;
+  background: rgb(243, 243, 243);
+}

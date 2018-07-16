@@ -2,6 +2,7 @@
 var express = require('express');
 //加载模板处理模块
 var swig = require('swig');
+var cons = require('consolidate');
 //加载数据库模块
 var mongoose = require('mongoose');
 
@@ -11,7 +12,7 @@ var app = express();
 //配置应用模板
 //定义当前应用所使用的模板引擎
 //第一个参数：模板引擎的名称，同时也是模板文件的后缀    第二个参数：表示用于解析处理模板内容的方法
-app.engine('html', swig.renderFile);
+app.engine('html', cons.swig);
 //设置模板文件目录，第一个参数必须是views，第二个参数是文件目录
 app.set('views', './views');
 //注册所使用的模板引擎，第一个参数必须死view engine，第二个参数必须和模板文件后缀一致
@@ -32,12 +33,15 @@ app.use('/api', require('./routers/api'));
 app.use('/', require('./routers/main'));
 
 //连接数据库
-mongoose.connect('mongodb://localhost:27018/blog',function(err){
-    if(err){
-        console.log('数据库连接失败');
-    }else{
-        console.log('数据库连接成功');
-        //监听http请求
-        app.listen(8080);
-    }
-});
+// mongoose.connect('mongodb://localhost:27018/blog',function(err){
+//     if(err){
+//         console.log('数据库连接失败');
+//     }else{
+//         console.log('数据库连接成功');
+//         //监听http请求
+//         app.listen(8080);
+//     }
+// });
+
+//监听http请求
+app.listen(8080);

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include './public/meta.html' %}
+  <title>FreeCoding {% block title %}{% endblock %}</title>
+  {% include './public/style.html' %}
+</head>
+<body>
+  <div class="left-side">
+    <ul class="nav-list">
+      <li class="item active">
+        <a href="javascript:;"><i class="fa fa-fw fa-home"></i>&nbsp;首页</a>
+      </li>
+      <li class="item">
+        <a href="javascript:;"><i class="fa fa-fw fa-html5"></i>&nbsp;前端技术</a>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <div class="header-section">
+      header
+    </div>
+    <div class="wrapper">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</body>
+  {% include './public/script.html' %}
+</html>
