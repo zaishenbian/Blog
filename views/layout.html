@@ -7,21 +7,16 @@
 </head>
 <body>
   <div class="left-side">
-    <ul class="nav-list">
-      <li class="item active">
-        <a href="javascript:;"><i class="fa fa-fw fa-home"></i>&nbsp;首页</a>
-      </li>
-      <li class="item">
-        <a href="javascript:;"><i class="fa fa-fw fa-html5"></i>&nbsp;前端技术</a>
-      </li>
-    </ul>
+    {% include './public/lefter.html' with leftSide %}
   </div>
   <div class="main-content">
     <div class="header-section">
-      header
+      {% include './public/header.html' %}
     </div>
     <div class="wrapper">
-      {% block content %}{% endblock %}
+      <div class="artical-content">
+        {% block content %}{% endblock %}
+      </div>
     </div>
   </div>
 </body>

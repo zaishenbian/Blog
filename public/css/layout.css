@@ -20,15 +20,20 @@ html,body{
   cursor: pointer;
 }
 .left-side .item a{
+  transition: .3s;
   color: rgb(255, 255, 255);
 }
 .left-side .item.active{
   background: rgb(67, 84, 102);
 }
+.left-side .item a:hover{
+  color: rgb(0, 180, 207);
+}
 .left-side .item.active a{
   color: rgb(0, 180, 207);
 }
-/*main=content*/
+
+/*main-content*/
 .main-content{
   position: relative;
   margin-left: 270px;
@@ -39,9 +44,52 @@ html,body{
   top: 0;
   width: 100%;
   line-height: 50px;
+  height: 50px;
   background: rgb(255, 255, 255);
+}
+/*header*/
+.main-content .header-section .lines{
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-right: 1px solid #e7e7e7;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: .3s;
+}
+.main-content .header-section .lines:hover{
+  background: rgb(45, 64, 84);
+}
+.main-content .header-section .lines:hover .line{
+  background: rgb(255, 255, 255);
+}
+.main-content .header-section .line{
+  position: absolute;
+  width: 18px;
+  left: 16px;
+  height: 3px;
+  background: #333;
+  top: 19px;
+  transition: .3s;
+}
+.main-content .header-section .line2{
+  top: 24px;
+}
+.main-content .header-section .line3{
+  top: 29px;
+}
+.main-content .header-section .title{
+  display: inline-block;
+  line-height: 50px;
+  font-weight: bold;
+  vertical-align: top;
 }
 .main-content .wrapper{
   padding: 60px 10px 30px;
   background: rgb(243, 243, 243);
+}
+.main-content .wrapper .artical-content{
+  min-height: 904px;
+  background: rgb(255, 255, 255);
 }

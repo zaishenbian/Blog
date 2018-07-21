@@ -1,9 +1,9 @@
 module.exports = {
-  "left-side": [
+  "leftSide": [
     {
       title: "首页",
       icon: "fa-home",
-      url: "javascript:;"
+      url: "/"
     },
     {
       title: "前端技术",

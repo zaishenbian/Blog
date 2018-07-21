@@ -1,0 +1,7 @@
+<ul class="nav-list">
+    {% for leftItem in leftSide %}
+      <li class="item {% if active === leftItem.url %} active {% endif %}">
+        <a href="{{leftItem.url}}"><i class="fa fa-fw {{leftItem.icon}}"></i>&nbsp;{{leftItem.title}}</a>
+      </li>
+    {% endfor %}
+  </ul>
