@@ -64,6 +64,16 @@ html,body{
 .main-content .header-section .lines:hover .line{
   background: rgb(255, 255, 255);
 }
+.main-content .header-section .lines:hover .line1{
+  transform: translateY(5px) rotate(45deg);
+}
+.main-content .header-section .lines:hover .line2{
+  transform: rotate(90deg);
+  opacity: 0;
+}
+.main-content .header-section .lines:hover .line3{
+  transform: translateY(-5px) rotate(-45deg);
+}
 .main-content .header-section .line{
   position: absolute;
   width: 18px;
