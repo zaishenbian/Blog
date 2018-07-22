@@ -9,8 +9,17 @@ html,body{
   position: absolute;
   font-size: 12px;
   color: #CC523A;
-  transition: all 1s;
-  transform: translateY(-50px);
+  animation: upmove .8s infinite;
+}
+@keyframes upmove{
+  0%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(-10px);
+    opacity: 0;
+  }
 }
 /*nav-left*/
 .left-side{

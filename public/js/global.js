@@ -2,7 +2,7 @@ layui.use(['jquery'], function(){
   var $ = layui.$;
   
   /*社会主义核心价值观*/
-  var socialismWorth = ['富强','民主','文明','和谐','自由','平等','公正','法治','爱国','敬业','诚信','友善'];
+  var socialismWorth = ['prosperity','democracy','civility','harmony','freedom','equality','justice','the rule of law','patriotism','dedication','integrity','friendship'];
   var worthIndex = 0;
   var myTimeout;
   $('body').click(function(event){
@@ -18,12 +18,11 @@ layui.use(['jquery'], function(){
   }); 
   //文字上升效果
   function upword(location, worthStr){
-    var $el = $(`<span style='left:${location.x}px;top:${location.y}px;'>${worthStr}</span>`);
+    var $el = $(`<span class='upword' style='left:${location.x}px;top:${location.y}px;'>${worthStr}</span>`);
     $('body').append($el);
-    $el.addClass('upword');
     myTimeout = setTimeout(function(){
       $('.upword').remove();
-    }, 1000);
+    }, 790);
   }
   //获取鼠标位置
   function getMousePos(event) {
