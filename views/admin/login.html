@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include '../public/meta.html' %}
+  <title>Admin</title>
+  {% include '../public/style.html' %}
+</head>
+<body>
+  <form action="/api/admin/register" method="post">
+    <div class="username">
+      <span>用户名：</span>
+      <input type="text" name="username" />
+    </div>
+    <div class="password">
+      <span>密码：</span>
+      <input type="password" name="password" />
+    </div>
+    <div class="repassword">
+      <span>确认密码：</span>
+      <input type="password" name="repassword" />
+    </div>
+    <div class="register">
+      <button>注册</button>
+    </div>
+  </form>
+</body>
+  {% include '../public/script.html' %}
+</html>
