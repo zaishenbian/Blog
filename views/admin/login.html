@@ -4,25 +4,54 @@
   {% include '../public/meta.html' %}
   <title>Admin</title>
   {% include '../public/style.html' %}
+  <link rel="stylesheet" href="/public/css/admin/login.css">
 </head>
 <body>
-  <form action="/api/admin/register" method="post">
-    <div class="username">
-      <span>用户名：</span>
-      <input type="text" name="username" />
+  <div class="admin-user-login">
+    <div class="admin-user-login-main">
+      <div class="admin-user-login-header">
+        <h2>Admin</h2>
+        <p>FreeCoding 后台管理系统</p>
+      </div>
+      <div class="admin-user-login-body layui-form">
+        <div class="layui-form-item">
+          <label class="admin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+          <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+          <label class="admin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+          <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 20px;">
+          <div class="admin-register fl" lay-skin="primary"><span>前往注册</span></div>
+          <a lay-href="/user/forget" class="admin-user-jump-change fr">忘记密码？</a>
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登 入</button>
+        </div>
+      </div>
+      <div class="admin-user-register-body layui-form">
+        <div class="layui-form-item">
+          <label class="admin-user-register-icon layui-icon layui-icon-username" for="LAY-user-register-username"></label>
+          <input type="text" name="username" id="LAY-user-register-username" lay-verify="required" placeholder="用户名" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+          <label class="admin-user-register-icon layui-icon layui-icon-password" for="LAY-user-register-password"></label>
+          <input type="password" name="password" id="LAY-user-register-password" lay-verify="required" placeholder="密码" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+          <label class="admin-user-register-icon layui-icon layui-icon-password" for="LAY-user-register-repassword"></label>
+          <input type="password" name="repassword" id="LAY-user-register-repassword" lay-verify="required" placeholder="确认密码" class="layui-input">
+        </div>
+        <div class="layui-form-item" style="margin-bottom: 20px;">
+          <div class="admin-login fl" lay-skin="primary"><span>前往登录</span></div>
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-register-submit">注 册</button>
+        </div>
+      </div>
     </div>
-    <div class="password">
-      <span>密码：</span>
-      <input type="password" name="password" />
-    </div>
-    <div class="repassword">
-      <span>确认密码：</span>
-      <input type="password" name="repassword" />
-    </div>
-    <div class="register">
-      <button>注册</button>
-    </div>
-  </form>
+  </div>
 </body>
   {% include '../public/script.html' %}
 </html>

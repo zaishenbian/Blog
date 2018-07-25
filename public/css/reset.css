@@ -49,6 +49,18 @@ ol, ul, li {
 input, textarea, select, button {
   font: 14px "Microsoft YaHei", "Arial", "黑体", "宋体", sans-serif;
 }
+input::-webkit-input-placeholder{
+  color:#d2d2d2;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+  color:#d2d2d2;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+  color:#d2d2d2;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+  color:#d2d2d2;
+}
 table {
   border-collapse: collapse;
 }
