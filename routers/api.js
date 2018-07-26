@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var userModel = require('../models/User');
 
 //统一返回格式
 var responseData;
@@ -49,9 +50,29 @@ router.post('/admin/register', function(req, res, next){
 		res.json(responseData);
 		return;
 	}
-	//注册成功
-	responseData.message = '注册成功';
-	res.json(responseData);
+	//查找该用户名是否存在
+	userModel.find({username: username}, function(err, data){
+		console.log(arguments);
+		if(data.length!=0){
+			responseData.message = '用户名已存在';
+			res.json(responseData);
+		}else{
+			//将用户名密码写入数据库
+			userModel.create({
+				username: username,
+				password: password
+			}, function(err, data){
+				console.log(arguments);
+				if(err){
+
+				}else{
+					//注册成功
+					responseData.message = '注册成功';
+					res.json(responseData);
+				}
+			});
+		}
+	});
 })
 
 router.get('/user', function(req, res, next){

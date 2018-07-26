@@ -38,15 +38,15 @@ app.use('/api', require('./routers/api'));
 app.use('/', require('./routers/main'));
 
 //连接数据库
-// mongoose.connect('mongodb://localhost:27018/blog',function(err){
-//     if(err){
-//         console.log('数据库连接失败');
-//     }else{
-//         console.log('数据库连接成功');
-//         //监听http请求
-//         app.listen(8080);
-//     }
-// });
+mongoose.connect('mongodb://localhost:27018/blog',function(err){
+    if(err){
+        console.log('数据库连接失败');
+    }else{
+        console.log('数据库连接成功');
+        //监听http请求
+        app.listen(8080);
+    }
+});
 
 //监听http请求
-app.listen(8080);
+// app.listen(8080);
