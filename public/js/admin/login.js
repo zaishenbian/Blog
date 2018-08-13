@@ -1,6 +1,7 @@
-layui.use(['jquery', 'form'], function(){
+layui.use(['jquery', 'form', 'layer'], function(){
   var $ = layui.$;
   var form = layui.form;
+  var layer = layui.layer;
   
   //登录注册切换
   var $registerBox = $('.admin-user-register-body');
@@ -26,6 +27,11 @@ layui.use(['jquery', 'form'], function(){
       data: formdata.field,
       success: function(result){
         console.log(result);
+        if(result.code==0){
+          $goLogin.click();
+        }else{
+          layer.msg(result.message);
+        }
       }
     });
   });

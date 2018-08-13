@@ -52,8 +52,8 @@ router.post('/admin/register', function(req, res, next){
 	}
 	//查找该用户名是否存在
 	userModel.find({username: username}, function(err, data){
-		console.log(arguments);
 		if(data.length!=0){
+			responseData.code = 1;
 			responseData.message = '用户名已存在';
 			res.json(responseData);
 		}else{
@@ -62,7 +62,6 @@ router.post('/admin/register', function(req, res, next){
 				username: username,
 				password: password
 			}, function(err, data){
-				console.log(arguments);
 				if(err){
 
 				}else{

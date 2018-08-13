@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include './public/admin/meta.html' %}
+  <title>博客后台管理系统</title>
+
+  {% include './public/admin/style.html' %}
+  {% block style %} {% endblock %}
+</head>
+<body class="layui-layout-body">
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo">博客后台管理系统</div>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+            <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+            贤心
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="/admin/login"><i class="layui-icon layui-icon-set"></i>退出</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+          <li class="layui-nav-item layui-nav-itemed">
+            <a class="" href="javascript:;">所有商品</a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;">列表一</a></dd>
+              <dd><a href="javascript:;">列表二</a></dd>
+              <dd><a href="javascript:;">列表三</a></dd>
+              <dd><a href="">超链接</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item">
+            <a href="javascript:;">解决方案</a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;">列表一</a></dd>
+              <dd><a href="javascript:;">列表二</a></dd>
+              <dd><a href="">超链接</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item"><a href="">云市场</a></li>
+          <li class="layui-nav-item"><a href="">发布商品</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="layui-body">
+      <!-- 内容主体区域 -->
+      <div style="padding: 15px;">
+        {% block content %} {% endblock %}
+      </div>
+    </div>
+    
+    <div class="layui-footer">
+      <!-- 底部固定区域 -->
+      © cherishsmile.xyz - QQ:779457747
+    </div>
+  </div>
+  {% include './public/admin/script.html' %}
+  {% block script %} {% endblock %}
+  <script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+      var element = layui.element;
+      
+    });
+  </script>
+</body>
+</html>

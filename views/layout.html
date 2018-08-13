@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% include './public/meta.html' %}
+  {% include './public/main/meta.html' %}
   <title>FreeCoding {% block title %}{% endblock %}</title>
-  {% include './public/style.html' %}
+  {% include './public/main/style.html' %}
 </head>
 <body>
   <div class="left-side">
-    {% include './public/lefter.html' with leftSide %}
+    {% include './public/main/lefter.html' with leftSide %}
   </div>
   <div class="main-content">
     <div class="header-section">
-      {% include './public/header.html' %}
+      {% include './public/main/header.html' %}
     </div>
     <div class="wrapper">
       <div class="artical-content">
@@ -20,5 +20,5 @@
     </div>
   </div>
 </body>
-  {% include './public/script.html' %}
+  {% include './public/main/script.html' %}
 </html>
