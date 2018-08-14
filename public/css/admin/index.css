@@ -1,0 +1,27 @@
+.layui-footer{
+    text-align: center;
+    color: #444;
+}
+.layui-tab{
+    margin: 0;
+}
+.layui-tab .layui-tab-title{
+    height: 39px;
+    border-top: 4px solid #1AA094;
+    border-bottom: 1px solid #1AA094;
+}
+.layui-tab li{
+    min-width: 65px;
+    border: 0;
+}
+.layui-tab li::after{
+    display: none;
+}
+.layui-tab li:first-child i{
+    display: none;
+}
+.layui-tab .layui-this{
+    background: #1AA094;
+    color: #fff;
+    border: 0;
+}
