@@ -20,8 +20,18 @@
 .layui-tab li:first-child i{
     display: none;
 }
+.layui-tab li:first-child .fa{
+    display: inline;
+    padding: 0 5px;
+}
 .layui-tab .layui-this{
     background: #1AA094;
     color: #fff;
     border: 0;
+}
+.fa{
+    padding: 0 10px 0 5px;
+}
+.layui-nav-tree .layui-nav-child a{
+    padding: 0 20px 0 30px;
 }

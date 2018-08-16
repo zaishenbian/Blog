@@ -18,7 +18,7 @@
             贤心
           </a>
           <dl class="layui-nav-child">
-            <dd><a href="/admin/login"><i class="layui-icon layui-icon-set"></i>退出</a></dd>
+            <dd><a href="/admin/login"><i class="fa fa-sign-out"></i>退出</a></dd>
           </dl>
         </li>
       </ul>
@@ -29,17 +29,17 @@
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree"  lay-filter="nav">
           <li class="layui-nav-item layui-nav-itemed">
-            <a class="" href="javascript:;">博客管理</a>
+            <a class="" href="javascript:;"><i class="fa fa-cubes"></i>博客管理</a>
             <dl class="layui-nav-child">
-              <dd><a href="javascript:;">文章管理</a></dd>
-              <dd><a href="javascript:;">标签管理</a></dd>
-              <dd><a href="javascript:;">评论管理</a></dd>
+              <dd><a href="javascript:;"><i class="fa fa-book"></i>文章管理</a></dd>
+              <dd><a href="javascript:;"><i class="fa fa-tags"></i>标签管理</a></dd>
+              <dd><a href="javascript:;"><i class="fa fa-comments"></i>评论管理</a></dd>
             </dl>
           </li>
           <li class="layui-nav-item layui-nav-itemed">
-            <a href="javascript:;">系统管理</a>
+            <a href="javascript:;"><i class="fa fa-cubes"></i>系统管理</a>
             <dl class="layui-nav-child">
-              <dd><a href="javascript:;">密码修改</a></dd>
+              <dd><a href="javascript:;"><i class="fa fa-unlock-alt"></i>密码修改</a></dd>
             </dl>
           </li>
         </ul>
@@ -48,12 +48,12 @@
     
     <div class="layui-body">
       <!-- 内容主体区域 -->
-      <div class="layui-tab" layui-filter="tab" lay-allowClose="true">
+      <div class="layui-tab" lay-filter="tab" lay-allowClose="true">
         <ul class="layui-tab-title">
-          <li class="layui-this"><span>首页</span></li>
+          <li class="layui-this"><i class="fa fa-tachometer"></i><span>首页</span></li>
         </ul>
-        <div class="layui-content">
-          <div class="layui-tab-item" layui-show>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
             欢迎使用博客后台管理系统，请帮忙给个star，这将是我继续的动力。谢谢...
           </div>
         </div>
@@ -72,15 +72,33 @@
     //JavaScript代码区域
     layui.use('element', function(){
       var element = layui.element;
+      var tabs = [];   //用于存储当前打开的tab
       
+      //监听左侧导航
       element.on("nav(nav)", function(elem){
-        let title = elem[0].innerText;
-        let content = title;
-        element.tabAdd('tab', {
-          title: title
-          ,content: content //支持传入html
-          ,id: title
-        }); 
+        let title = elem[0].innerHTML;
+        let layId = elem[0].innerText;
+        //防止tab重复添加
+        if(tabs.indexOf(layId)>-1){
+          element.tabChange('tab', layId);
+          return;
+        }else{
+          let content = title;
+          //添加tab
+          element.tabAdd('tab', {
+            title: title
+            ,content: content //支持传入html
+            ,id: layId
+          }); 
+          tabs.push(layId);
+          element.tabChange('tab', layId);
+        }
+      })
+
+      //监听tab关闭
+      element.on('tabDelete(tab)', function(data){
+        var index = data.index;
+        tabs.splice(index-1, 1);
       })
     });
   </script>
