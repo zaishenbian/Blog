@@ -8,6 +8,7 @@ layui.use('element', function () {
   element.on("nav(nav)", function (elem) {
     let title = elem[0].innerHTML;
     let layId = elem[0].innerText;
+    let link = $(elem[0]).attr('link');
     //防止tab重复添加
     if (tabs.indexOf(layId) > -1) {
       element.tabChange('tab', layId);
@@ -15,16 +16,19 @@ layui.use('element', function () {
     } else {
       let content = title;
       $.ajax({
-        url: '/api/'
+        url: link,
+        type: 'get',
+        success: function(cont){
+          //添加tab
+          element.tabAdd('tab', {
+            title: title
+            , content: cont //支持传入html
+            , id: layId
+          });
+          tabs.push(layId);
+          element.tabChange('tab', layId);
+        }
       })
-      //添加tab
-      element.tabAdd('tab', {
-        title: title
-        , content: content //支持传入html
-        , id: layId
-      });
-      tabs.push(layId);
-      element.tabChange('tab', layId);
     }
   })
 

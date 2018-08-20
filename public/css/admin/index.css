@@ -35,3 +35,7 @@
 .layui-nav-tree .layui-nav-child a{
     padding: 0 20px 0 30px;
 }
+.index-item{
+    text-align: center;
+    line-height: 400px;
+}
