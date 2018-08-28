@@ -7,6 +7,10 @@ var cons = require('consolidate');
 var bodyParser = require('body-parser');
 //加载数据库模块
 var mongoose = require('mongoose');
+//加载express-session模块
+var session = require('express-session');
+//加载connect-mongo模块
+var MongoStore = require('connect-mongo')(session);
 
 //创建app应用 => NodeJS http.createServer();
 var app = express();
@@ -29,6 +33,18 @@ app.use(bodyParser.urlencoded({extended: true}));
 //设置静态文件托管
 //当用户访问的url以/public开始，那么直接返回__dirname + '/public'目录下的文件
 app.use('/public', express.static(__dirname + '/public'));
+
+//设置session
+app.use(session({
+    secret: 'blog2018',
+    cookie: { maxAge: 1000*60*60 },
+    resave: true,
+    saveUninitialized: true,
+    rolling: true,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}))
 
 /**
  * 根据不同的功能划分模块

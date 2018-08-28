@@ -2,12 +2,22 @@ var express = require('express');
 var router = express.Router();
 
 //登录注册页面路由
-router.get('/', function(req, res, next){
-    res.render('admin/index');
+router.get('/login', function(req, res, next){
+    req.session.user = null;
+    res.render('admin/login');
 })
 
-router.get('/login', function(req, res, next){
-    res.render('admin/login');
+router.use(function(req, res, next){
+    if(req.session.user&&req.session.user.isAdmin){
+        next();
+    }else{
+        res.redirect('/admin/login');
+    }
+})
+
+//首页路由
+router.get('/', function(req, res, next){
+    res.render('admin/index');
 })
 
 router.get('/user', function(req, res, next){

@@ -5,6 +5,12 @@ html,body{
   color: #666;
   overflow: auto;
 }
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
 .admin-user-login{
   padding: 110px 0;
 }

@@ -38,6 +38,20 @@ layui.use(['jquery', 'form', 'layer'], function(){
 
   //监听登陆表单提交
   form.on('submit(LAY-user-login-submit)', function(data){
-    console.log('登陆');
+    $.ajax({
+      url: '/api/admin/login',
+      async: false,
+      type: 'post',
+      data: data.field,
+      success: function(result){
+        if(result.code==0){
+          location.href = '/admin'
+        }else if(result.code==2){
+          layer.msg('当前账号为非管理员账号，无法登录后台管理系统');
+        }else{
+          layer.msg(result.message);
+        }
+      }
+    });
   });
 });

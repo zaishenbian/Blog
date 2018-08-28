@@ -15,14 +15,56 @@ router.use(function(req, res, next){
 /**
  * 用户登录
  */
-router.post('/admin/login', function(){
-
+router.post('/admin/login', function(req, res){
+	//用户名
+	var username = req.body.username; 
+	//密码
+	var password = req.body.password;
+	//用户名是否为空
+	if(username == ''){
+		responseData.code = 1;
+		responseData.message = '用户名不能为空';
+		res.json(responseData);
+		return;
+	}
+	//密码不能为空
+	if(password == ''){
+		responseData.code = 1;
+		responseData.password = '用户名不能为空';
+		res.json(responseData);
+		return;
+	}
+	//查询数据库，验证用户名密码是否匹配
+	userModel.findOne({
+			username: username, 
+			password: password
+		}).then(result => {
+			if(result){
+				//判断是否是管理员
+				if(username == 'admin'){
+					var isAdmin = true;
+					responseData.message = '登录成功！';
+				}else{
+					var isAdmin = false;
+					responseData.code = 2;
+				}
+				req.session.user = {
+					username: username,
+					isAdmin: isAdmin
+				}
+			}else{
+				responseData.code = 1;
+				responseData.message = '用户名或密码错误！';
+			}
+			res.send(responseData);
+		}
+	)
 })
 
 /**
  * 用户注册
  */
-router.post('/admin/register', function(req, res, next){
+router.post('/admin/register', function(req, res){
 	//用户名
 	var username = req.body.username; 
 	//密码
@@ -39,7 +81,7 @@ router.post('/admin/register', function(req, res, next){
 	//密码不能为空
 	if(password == ''){
 		responseData.code = 1;
-		responseData.password = '用户名不能为空';
+		responseData.password = '密码不能为空';
 		res.json(responseData);
 		return;
 	}
@@ -73,6 +115,16 @@ router.post('/admin/register', function(req, res, next){
 		}
 	});
 })
+
+/**
+ * 博客页面接口
+ */
+router.use('/', require('./mainApi'));
+
+/**
+ * 后台管理接口
+ */
+router.use('/admin', require('./adminApi'));
 
 router.get('/user', function(req, res, next){
   res.send('API-User');

@@ -37,10 +37,19 @@
 <script>
   layui.use(['form'], function(){
     var form = layui.form;
+    var $ = layui.jquery;
+    var layer = layui.layer;
 
     //监听提交
     form.on('submit(pwdForm)', function(data){
-      console.log(data);
+      $.ajax({
+        url: '/api/admin/changePwd',
+        type: 'post',
+        data: data.field,
+        success: function(data){
+          layer.msg(data.message);
+        }
+      })
     })
   })
 </script>
