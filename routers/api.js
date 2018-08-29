@@ -41,11 +41,12 @@ router.post('/admin/login', function(req, res){
 		}).then(result => {
 			if(result){
 				//判断是否是管理员
-				if(username == 'admin'){
+				if(result.isAdmin){
 					var isAdmin = true;
-					responseData.message = '登录成功！';
+					responseData.message = '管理员登录成功！';
 				}else{
 					var isAdmin = false;
+					responseData.message = '普通用户登录成功！';
 					responseData.code = 2;
 				}
 				req.session.user = {

@@ -11,6 +11,8 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 //加载connect-mongo模块
 var MongoStore = require('connect-mongo')(session);
+//记载初始化模块
+var init = require('./routers/init');
 
 //创建app应用 => NodeJS http.createServer();
 var app = express();
@@ -33,6 +35,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 //设置静态文件托管
 //当用户访问的url以/public开始，那么直接返回__dirname + '/public'目录下的文件
 app.use('/public', express.static(__dirname + '/public'));
+
+//初始化
+init();
 
 //设置session
 app.use(session({

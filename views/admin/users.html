@@ -1,0 +1,42 @@
+<style>
+    table .layui-btn{
+        height: 31px;
+        line-height: 31px;
+    }
+</style>
+
+<table id="users" lay-filter="users"></table>
+
+<script type="text/html" id="usersBar">
+    <button class="layui-btn layui-btn-radius layui-btn-warm">删除</button>
+</script>
+
+<script>
+    layui.use(['table'], function(){
+        var table = layui.table;
+
+        //表格渲染
+        table.render({
+            elem: '#users'
+            ,heights: 520
+            ,page: true
+            ,url: '/api/admin/users'
+            ,method: 'post'
+            ,parseData: function(res){
+                return {
+                    "code": res.code,
+                    "msg": '',
+                    "count": res.count,
+                    "data": res.message
+                }
+            }
+            ,toolbar: true
+            ,cols: [[
+                {field: '_id', title: 'ID'}
+                ,{field: 'username', title: '用户名'}
+                ,{field: 'password', title: '密码'}
+                ,{title: '操作', fixed: 'right', toolbar: '#usersBar'}
+            ]]
+        })
+    })
+</script>

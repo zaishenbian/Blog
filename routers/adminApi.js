@@ -24,6 +24,28 @@ router.use(function(req, res, next){
 })
 
 /**
+ * 用户列表
+ */
+router.post('/users', function(req, res){
+	var limit = Number(req.body.limit);
+	var skip = Number(req.body.page)-1;
+	userModel.find().skip(skip*limit).limit(limit).then(result => {
+		if(result){
+			responseData.message = result;
+			return userModel.estimatedDocumentCount();
+		}else{
+			responseData.code = 1;
+			responseData.count = 0;
+			responseData.message = '数据库查询错误，请重试';
+			res.send(responseData);
+		}
+	}).then((count) => {
+		responseData.count = count;
+		res.send(responseData);
+	})
+})
+
+/**
  * 修改后台管理系统密码
  */
 router.post('/changePwd', function(req, res){
@@ -71,10 +93,9 @@ router.post('/changePwd', function(req, res){
       })
     }else{
       responseData.code = 1;
-      responseData.message = '密码错误';
+      responseData.message = '原始密码密码错误';
       res.send(responseData);
-      Promise.reject();
-      retun;
+      return;
     }
   }).then(function(result){
     if(result){

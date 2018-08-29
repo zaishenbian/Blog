@@ -20,8 +20,8 @@ router.get('/', function(req, res, next){
     res.render('admin/index');
 })
 
-router.get('/user', function(req, res, next){
-    res.send('Admin-User');
+router.get('/users', function(req, res, next){
+    res.render('admin/users');
 })
 
 //文章管理
