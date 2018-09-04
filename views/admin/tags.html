@@ -1,1 +1,42 @@
-tags
+<style>
+  table .layui-btn{
+      height: 31px;
+      line-height: 31px;
+  }
+</style>
+
+<table id="tags" lay-filter="tags"></table>
+
+<script type="text/html" id="tagsBar">
+  <button class="layui-btn layui-btn-radius">修改</button>
+  <button class="layui-btn layui-btn-radius layui-btn-warm">删除</button>
+</script>
+
+<script>
+  layui.use(['table'], function(){
+      var table = layui.table;
+
+      //表格渲染
+      table.render({
+          elem: '#tags'
+          ,heights: 520
+          ,page: true
+          ,url: '/api/admin/tags'
+          ,method: 'post'
+          ,parseData: function(res){
+              return {
+                  "code": res.code,
+                  "msg": '',
+                  "count": res.count,
+                  "data": res.message
+              }
+          }
+          ,toolbar: true
+          ,cols: [[
+              {field: '_id', title: 'ID'}
+              ,{field: 'name', title: '标签名'}
+              ,{title: '操作', fixed: 'right', toolbar: '#tagsBar'}
+          ]]
+      })
+  })
+</script>

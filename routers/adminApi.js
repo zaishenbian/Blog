@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../models/User');
+var tagModel = require('../models/Tag');
 
 //统一返回格式
 var responseData;
@@ -33,6 +34,28 @@ router.post('/users', function(req, res){
 		if(result){
 			responseData.message = result;
 			return userModel.estimatedDocumentCount();
+		}else{
+			responseData.code = 1;
+			responseData.count = 0;
+			responseData.message = '数据库查询错误，请重试';
+			res.send(responseData);
+		}
+	}).then((count) => {
+		responseData.count = count;
+		res.send(responseData);
+	})
+})
+
+/**
+ * 标签列表
+ */
+router.post('/tags', function(req, res){
+	var limit = Number(req.body.limit);
+	var skip = Number(req.body.page)-1;
+	tagModel.find().skip(skip*limit).limit(limit).then(result => {
+		if(result){
+			responseData.message = result;
+			return tagModel.estimatedDocumentCount();
 		}else{
 			responseData.code = 1;
 			responseData.count = 0;

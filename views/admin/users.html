@@ -35,7 +35,10 @@
                 {field: '_id', title: 'ID'}
                 ,{field: 'username', title: '用户名'}
                 ,{field: 'password', title: '密码'}
-                ,{title: '操作', fixed: 'right', toolbar: '#usersBar'}
+                ,{field: 'idAdmin', title: '是否管理员', templet: function(d){
+                    return d.isAdmin?'是':'';
+                }}
+                // ,{title: '操作', fixed: 'right', toolbar: '#usersBar'}
             ]]
         })
     })
