@@ -12,31 +12,59 @@
   <button class="layui-btn layui-btn-radius layui-btn-warm">删除</button>
 </script>
 
-<script>
-  layui.use(['table'], function(){
-      var table = layui.table;
+<script type="text/html" id="toolbar">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+	</div>
+	<!-- <div class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div> -->
+</script>
 
-      //表格渲染
-      table.render({
-          elem: '#tags'
-          ,heights: 520
-          ,page: true
-          ,url: '/api/admin/tags'
-          ,method: 'post'
-          ,parseData: function(res){
-              return {
-                  "code": res.code,
-                  "msg": '',
-                  "count": res.count,
-                  "data": res.message
-              }
-          }
-          ,toolbar: true
-          ,cols: [[
-              {field: '_id', title: 'ID'}
-              ,{field: 'name', title: '标签名'}
-              ,{title: '操作', fixed: 'right', toolbar: '#tagsBar'}
-          ]]
-      })
+<script>
+  layui.use(['table','layer'], function(){
+		var table = layui.table;
+		var layer = layui.layer;
+		var $ = layui.jquery;
+
+		//表格渲染
+		table.render({
+				elem: '#tags'
+				,heights: 520
+				,page: true
+				,url: '/api/admin/tags'
+				,method: 'post'
+				,parseData: function(res){
+						return {
+								"code": res.code,
+								"msg": '',
+								"count": res.count,
+								"data": res.message
+						}
+				}
+				,toolbar: '#toolbar'
+				,cols: [[
+						{field: '_id', title: 'ID'}
+						,{field: 'name', title: '标签名'}
+						,{title: '操作', fixed: 'right', toolbar: '#tagsBar'}
+				]]
+		})
+
+		//监听事件
+		table.on('toolbar(tags)', function(obj){
+			var checkStatus = table.checkStatus(obj.config.id);
+			switch(obj.event){
+				case 'add':
+				layer.open({
+					type: 1,
+					content: '<input type="text" name="title" required lay-verify="required" placeholder="请输入标签名称" class="layui-input" style="margin: 11px 20px 0;width:90%;">',
+					btn: ['添加', '取消'],
+					area: ['400px', '150px'],
+					yes: function(index, layero){
+						console.log(index);
+						console.log(layero);
+					}
+				});
+				break;
+			};
+		});                                                                             
   })
 </script>
