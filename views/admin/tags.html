@@ -1,15 +1,15 @@
 <style>
-  table .layui-btn{
-      height: 31px;
-      line-height: 31px;
-  }
+	table .layui-btn {
+		height: 31px;
+		line-height: 31px;
+	}
 </style>
 
 <table id="tags" lay-filter="tags"></table>
 
 <script type="text/html" id="tagsBar">
-  <button class="layui-btn layui-btn-radius">修改</button>
-  <button class="layui-btn layui-btn-radius layui-btn-warm">删除</button>
+  <button class="layui-btn layui-btn-radius" lay-event="edit">修改</button>
+  <button class="layui-btn layui-btn-radius layui-btn-warm" lay-event="delete">删除</button>
 </script>
 
 <script type="text/html" id="toolbar">
@@ -20,51 +20,126 @@
 </script>
 
 <script>
-  layui.use(['table','layer'], function(){
+	layui.use(['table', 'layer'], function () {
 		var table = layui.table;
 		var layer = layui.layer;
 		var $ = layui.jquery;
 
 		//表格渲染
-		table.render({
-				elem: '#tags'
-				,heights: 520
-				,page: true
-				,url: '/api/admin/tags'
-				,method: 'post'
-				,parseData: function(res){
-						return {
-								"code": res.code,
-								"msg": '',
-								"count": res.count,
-								"data": res.message
-						}
+		var tagTable = table.render({
+			elem: '#tags'
+			, heights: 520
+			, page: true
+			, url: '/api/admin/tags'
+			, method: 'post'
+			, parseData: function (res) {
+				return {
+					"code": res.code,
+					"msg": '',
+					"count": res.count,
+					"data": res.message
 				}
-				,toolbar: '#toolbar'
-				,cols: [[
-						{field: '_id', title: 'ID'}
-						,{field: 'name', title: '标签名'}
-						,{title: '操作', fixed: 'right', toolbar: '#tagsBar'}
-				]]
+			}
+			, toolbar: '#toolbar'
+			, cols: [[
+				{ field: '_id', title: 'ID' }
+				, { field: 'name', title: '标签名' }
+				, { title: '操作', fixed: 'right', toolbar: '#tagsBar' }
+			]]
 		})
 
-		//监听事件
-		table.on('toolbar(tags)', function(obj){
+		//监听头工具事件
+		table.on('toolbar(tags)', function (obj) {
 			var checkStatus = table.checkStatus(obj.config.id);
-			switch(obj.event){
+			switch (obj.event) {
 				case 'add':
+					layer.open({
+						type: 1,
+						content: '<input type="text" name="title" required lay-verify="required" placeholder="请输入标签名称" class="layui-input" style="margin: 11px 20px 0;width:90%;">',
+						btn: ['添加', '取消'],
+						area: ['400px', '150px'],
+						yes: function (index, layero) {
+							var tagName = $(layero).find('input').val();
+							$.ajax({
+								url: '/api/admin/addTag',
+								data: {
+									tagName: tagName
+								},
+								type: 'post',
+								success: function (data) {
+									if (data.code == 0) {
+										layer.close(index);
+										tagTable.reload({
+											page: {
+												curr: 1    //重新从第一页开始
+											}
+										});
+									} else {
+										layer.msg(data.message);
+									}
+								}
+							})
+						}
+					});
+					break;
+			};
+		});
+
+		//监听行工具时间
+		table.on('tool(tags)', function (obj) {
+			var data = obj.data;
+			var layEvent = obj.event;
+
+			if (layEvent == 'edit') {
 				layer.open({
 					type: 1,
-					content: '<input type="text" name="title" required lay-verify="required" placeholder="请输入标签名称" class="layui-input" style="margin: 11px 20px 0;width:90%;">',
-					btn: ['添加', '取消'],
+					content: `<input type="text" name="title" required lay-verify="required" placeholder="请输入标签名称" class="layui-input" style="margin: 11px 20px 0;width:90%;" value="${data.name}">`,
+					btn: ['确定', '取消'],
 					area: ['400px', '150px'],
-					yes: function(index, layero){
-						console.log(index);
-						console.log(layero);
+					yes: function (index, layero) {
+						var tagName = $(layero).find('input').val();
+						$.ajax({
+							url: '/api/admin/editTag',
+							data: {
+								_id: data._id,
+								tagName: tagName
+							},
+							type: 'post',
+							success: function (data) {
+								if (data.code == 0) {
+									layer.close(index);
+									tagTable.reload({
+										page: {
+											curr: 1    //重新从第一页开始
+										}
+									});
+								} else {
+									layer.msg(data.message);
+								}
+							}
+						})
 					}
 				});
-				break;
-			};
-		});                                                                             
-  })
+			} else if (layEvent == 'delete') {
+				layer.confirm('确定删除标签？', function (index) {
+					$.ajax({
+						url: '/api/admin/deleteTag',
+						type: 'post',
+						data: data,
+						success: function (result) {
+							layer.close(index);
+							layer.msg(result.message);
+							if (result.code == 0) {
+								tagTable.reload({
+									page: {
+										curr: 1
+									}
+								})
+							}
+						}
+					})
+				})
+			}
+		})
+	})
 </script>

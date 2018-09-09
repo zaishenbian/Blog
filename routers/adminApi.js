@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var userModel = require('../models/User');
 var tagModel = require('../models/Tag');
+var articeModel = require('../models/Article');
 
 //统一返回格式
 var responseData;
@@ -56,6 +57,121 @@ router.post('/tags', function(req, res){
 		if(result){
 			responseData.message = result;
 			return tagModel.estimatedDocumentCount();
+		}else{
+			responseData.code = 1;
+			responseData.count = 0;
+			responseData.message = '数据库查询错误，请重试';
+			res.send(responseData);
+		}
+	}).then((count) => {
+		responseData.count = count;
+		res.send(responseData);
+	})
+})
+
+/**
+ * 添加标签
+ */
+router.post('/addTag', function(req, res){
+	var tagName = req.body.tagName;
+	//验证标签名是否为空
+	if(tagName==''){
+		responseData.code = 1;
+		responseData.message = '标签名称不能为空';
+		res.send(responseData);
+		return;
+	}
+	//忽略大小写查询
+	var reg = new RegExp("^"+tagName+"$", 'i');
+	tagModel.findOne({name: {$regex: reg}}).then(function(data){
+		if(data){
+			responseData.code = 1;
+			responseData.message = '该标签已存在';
+			res.send(responseData);
+			return Promise.reject();
+		}else{
+			return tagModel.create({
+				name: tagName
+			})
+		}
+	}).then(function(data){
+		if(!data){
+			responseData.code = 1;
+			responseData.message = '新增标签失败';
+		}else{
+			responseData.message = '标签添加成功';
+		}
+		res.send(responseData);
+	})
+})
+
+/**
+ * 修改标签
+ */
+router.post('/editTag', function(req, res){
+	var _id = req.body._id;
+	var tagName = req.body.tagName;
+	//验证标签名是否为空
+	if(tagName==''){
+		responseData.code = 1;
+		responseData.message = '标签名称不能为空';
+		res.send(responseData);
+		return;
+	}
+	//忽略大小写查询
+	var reg = new RegExp("^"+tagName+"$", 'i');
+	tagModel.findOne({name: {$regex: reg}}).then(function(data){
+		if(data){
+			responseData.code = 1;
+			responseData.message = '该标签已存在';
+			res.send(responseData);
+			return Promise.reject();
+		}else{
+			return tagModel.updateOne({
+				_id: _id
+			},{
+				$set: {
+					name: tagName
+				}
+			})
+		}
+	}).then(function(data){
+		if(!data){
+			responseData.code = 1;
+			responseData.message = '标签修改失败';
+		}else{
+			responseData.message = '标签修改成功';
+		}
+		res.send(responseData);
+	})
+})
+
+
+/**
+ * 删除标签
+ */
+router.post('/deleteTag', function(req, res){
+	var _id = req.body._id;
+	//删除标签
+	tagModel.remove({_id: _id}).then(function(data){
+		if(data){
+			responseData.message = '标签删除成功';
+		}else{
+			responseData.code = 1;
+			responseData.message = '标签删除失败';
+		}
+		res.send(responseData);
+	})
+})
+
+//文章列表
+router.post('/articles', function(req, res){
+	var limit = Number(req.body.limit);
+	var skip = Number(req.body.page)-1;
+	articeModel.find().skip(skip*limit).limit(limit).then(result => {
+		if(result){
+			responseData.message = result;
+			return articeModel.estimatedDocumentCount();
 		}else{
 			responseData.code = 1;
 			responseData.count = 0;

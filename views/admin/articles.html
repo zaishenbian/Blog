@@ -1,1 +1,96 @@
-articles
+<style>
+	table .layui-btn {
+		height: 31px;
+		line-height: 31px;
+	}
+</style>
+
+<table id="articles" lay-filter="articles"></table>
+
+<script type="text/html" id="articlesBar">
+  <button class="layui-btn layui-btn-radius" lay-event="edit">编辑</button>
+  <button class="layui-btn layui-btn-radius layui-btn-warm" lay-event="delete">删除</button>
+</script>
+
+<script type="text/html" id="toolbar">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+	</div>
+	<!-- <div class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div> -->
+</script>
+
+<script>
+	layui.use(['table', 'layer'], function () {
+		var table = layui.table;
+		var layer = layui.layer;
+		var $ = layui.jquery;
+
+		//表格渲染
+		var articleTable = table.render({
+			elem: '#articles'
+			, heights: 520
+			, page: true
+			, url: '/api/admin/articles'
+			, method: 'post'
+			, parseData: function (res) {
+				return {
+					"code": res.code,
+					"msg": '',
+					"count": res.count,
+					"data": res.message
+				}
+			}
+			, toolbar: '#toolbar'
+			, cols: [[
+        { field: '_id', title: 'ID' }
+        , { field: 'tags', title: '标签', templet: function(d){
+          return d.map(item => item.name).join(',');
+        }}
+        , { field: 'name', title: '文章标题'}
+        , { field: 'author', title: '作者'}
+        , { field: 'time', title: '添加时间'}
+				, { field: 'views', title: '阅读量' }
+				, { title: '操作', fixed: 'right', toolbar: '#articlesBar' }
+			]]
+		})
+
+		//监听头工具事件
+		table.on('toolbar(articles)', function (obj) {
+			var checkStatus = table.checkStatus(obj.config.id);
+			switch (obj.event) {
+				case 'add':
+					
+				break;
+			};
+		});
+
+		//监听行工具时间
+		table.on('tool(articles)', function (obj) {
+			var data = obj.data;
+			var layEvent = obj.event;
+
+			if (layEvent == 'edit') {
+
+			} else if (layEvent == 'delete') {
+				layer.confirm('确定删除文章？', function (index) {
+					$.ajax({
+						url: '/api/admin/deleteArticle',
+						type: 'post',
+						data: data,
+						success: function (result) {
+							layer.close(index);
+							layer.msg(result.message);
+							if (result.code == 0) {
+								articleTable.reload({
+									page: {
+										curr: 1
+									}
+								})
+							}
+						}
+					})
+				})
+			}
+		})
+	})
+</script>
