@@ -29,6 +29,18 @@ router.get('/articles', function(req, res, next){
     res.render('admin/articles');
 })
 
+//文章新增与编辑
+router.get('/articleEdit', function(req, res){
+    var code = req.query.code;
+    if(code == 0){
+        //新增
+        res.render('admin/articleEdit', {type: '新增'});
+    }else if(code == 1){
+        //编辑
+        res.render('admin/articleEdit', {type: '编辑'});
+    }
+})
+
 //标签管理
 router.get('/tags', function(req, res, next){
     res.render('admin/tags');
