@@ -1,40 +1,22 @@
+layui.config({
+  base: '/public/js/admin/'
+}).extend({
+  common: 'common'
+})
+
 //JavaScript代码区域
-layui.use('element', function () {
+layui.use(['element','jquery','common'], function () {
   var element = layui.element;
   var $ = layui.jquery;
-  var tabs = [];   //
+  var common = layui.common;
 
   //监听左侧导航
   element.on("nav(nav)", function (elem) {
     let title = elem[0].innerHTML;
     let layId = elem[0].innerText;
     let link = $(elem[0]).attr('link');
-    //防止tab重复添加
-    if (tabs.indexOf(layId) > -1) {
-      element.tabChange('tab', layId);
-      return;
-    } else {
-      let content = title;
-      $.ajax({
-        url: link,
-        type: 'get',
-        success: function(cont){
-          //添加tab
-          element.tabAdd('tab', {
-            title: title
-            , content: cont //支持传入html
-            , id: layId
-          });
-          tabs.push(layId);
-          element.tabChange('tab', layId);
-        }
-      })
-    }
+    //添加页签
+    common.addTab(title, layId, link);
   })
 
-  //监听tab关闭
-  element.on('tabDelete(tab)', function (data) {
-    var index = data.index;
-    tabs.splice(index - 1, 1);
-  })
 });

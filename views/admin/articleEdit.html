@@ -1,1 +1,69 @@
-articleEdit{{type}}
+<form class="layui-form">
+  <div class="layui-form-item">
+    <label class="layui-form-label">文章名称</label>
+    <div class="layui-input-block">
+      <input type="text" name="name" required  lay-verify="required" placeholder="请输入文章名称" autocomplete="off" class="layui-input" value="{{article.name}}">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">所属标签</label>
+    <div class="layui-input-block">
+      {% for tag in tags %}
+        {% if article.tags.toString().indexOf(tag.toString())>-1 %}
+          <input type="checkbox" name="tags[]" title="{{tag.name}}" value="{{tag._id.toString()}}" checked>   
+        {% else %} 
+          <input type="checkbox" name="tags[]" title="{{tag.name}}" value="{{tag._id.toString()}}"> 
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">文章简介</label>
+    <div class="layui-input-block">
+      <textarea name="description" required  lay-verify="required" placeholder="请输入文章简介" class="layui-textarea">{{article.description}}</textarea>
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">文章内容</label>
+    <div class="layui-input-block">
+      <textarea name="content" required  lay-verify="required" placeholder="请输入文章内容" class="layui-textarea">{{article.content}}</textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="article">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+ 
+<script>
+  layui.use(['form', 'jquery', 'layer', 'common'], function(){
+    var form = layui.form;
+    var $ = layui.jquery;
+    var layer = layui.layer;
+    var common = layui.common;
+    
+    //表单渲染
+    form.render();
+    //监听提交
+    form.on('submit(article)', function(data){
+      var formData = data.field;
+      console.log(formData);
+      console.log(formData["tags[0]"]);
+      return false;
+      $.ajax({
+        url: '/api/admin/addArticle',
+        type: 'post',
+        data: formData,
+        success: function(result){
+          if(result.code == 0){
+            common.deleteTab('article-add');
+          }
+          layer.msg(result.message);
+        }
+      })
+      return false;
+    });
+  });
+</script>

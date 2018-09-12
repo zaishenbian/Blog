@@ -20,12 +20,12 @@
 </script>
 
 <script>
-	layui.use(['table', 'layer', 'element'], function () {
+	layui.use(['table', 'layer', 'element', 'common'], function () {
 		var table = layui.table;
 		var layer = layui.layer;
 		var element = layui.element;
 		var $ = layui.jquery;
-		var tabs = [];
+		var common = layui.common;
 
 		//表格渲染
 		var articleTable = table.render({
@@ -47,13 +47,13 @@
 				{ field: '_id', title: 'ID' }
 				, {
 					field: 'tags', title: '标签', templet: function (d) {
-						return d.map(item => item.name).join(',');
+						return d.tags.map(item => item.name).join(',');
 					}
 				}
 				, { field: 'name', title: '文章标题' }
-				, { field: 'author', title: '作者' }
-				, { field: 'time', title: '添加时间' }
-				, { field: 'views', title: '阅读量' }
+				, { field: 'author', title: '作者', width: 120 }
+				, { field: 'time', title: '添加时间', width: 180 }
+				, { field: 'views', title: '阅读量', width: 80 }
 				, { title: '操作', fixed: 'right', toolbar: '#articlesBar' }
 			]]
 		})
@@ -63,7 +63,7 @@
 			var checkStatus = table.checkStatus(obj.config.id);
 			switch (obj.event) {
 				case 'add':
-					addTab('添加文章', 'article-add', '/admin/articleEdit?code=0');
+					common.addTab('添加文章', 'article-add', '/admin/articleEdit?code=0');
 					break;
 			};
 		});
@@ -74,7 +74,7 @@
 			var layEvent = obj.event;
 
 			if (layEvent == 'edit') {
-				addTab('文章编辑', 'article-edit', '/admin/articleEdit?code=1');
+				common.addTab('文章编辑', 'article-edit', '/admin/articleEdit?code=1&id='+data._id);
 			} else if (layEvent == 'delete') {
 				layer.confirm('确定删除文章？', function (index) {
 					$.ajax({
@@ -95,38 +95,6 @@
 					})
 				})
 			}
-		})
-
-		//新增页签
-		function addTab(title, layId, url) {
-			$.ajax({
-				url: url,
-				type: 'get',
-				success: function (cont) {
-					//防止tab重复添加 
-					// if (tabs.indexOf(layId) > -1) {
-					// 	element.tabChange('tab', layId);
-					// 	element.render('tab');
-					// }else{
-						//添加tab
-						element.tabAdd('tab', {
-							title: title
-							, content: cont //支持传入html
-							, id: layId
-						});
-						tabs.push(layId);
-						element.tabChange('tab', layId);
-					// }
-				}
-			})
-		}
-
-		//监听tab关闭
-		element.on('tabDelete(tab)', function (data) {
-			console.log(this);
-			console.log(tabs);
-			var index = data.index;
-			tabs.splice(index - 1, 1);
 		})
 	})
 </script>

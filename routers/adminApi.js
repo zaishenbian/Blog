@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var userModel = require('../models/User');
 var tagModel = require('../models/Tag');
-var articeModel = require('../models/Article');
+var articleModel = require('../models/Article');
 
 //统一返回格式
 var responseData;
@@ -168,10 +168,10 @@ router.post('/deleteTag', function(req, res){
 router.post('/articles', function(req, res){
 	var limit = Number(req.body.limit);
 	var skip = Number(req.body.page)-1;
-	articeModel.find().skip(skip*limit).limit(limit).then(result => {
+	articleModel.find().populate('tags').skip(skip*limit).limit(limit).then(result => {
 		if(result){
 			responseData.message = result;
-			return articeModel.estimatedDocumentCount();
+			return articleModel.estimatedDocumentCount();
 		}else{
 			responseData.code = 1;
 			responseData.count = 0;
@@ -180,6 +180,39 @@ router.post('/articles', function(req, res){
 		}
 	}).then((count) => {
 		responseData.count = count;
+		res.send(responseData);
+	})
+})
+
+/**
+ * 添加文章
+ */
+router.post('/addArticle', function(req, res){
+	var article = req.body;
+	articleModel.create(article).then(data => {
+		if(data){
+			responseData.message = '文章添加成功';
+		}else{
+			responseData.code = 1;
+			responseData.message = '文章添加失败';
+		}
+		res.send(responseData);
+	})
+})
+
+/**
+ * 删除文章
+ */
+router.post('/deleteArticle', function(req, res){
+	var _id = req.body._id;
+	//删除标签
+	articleModel.remove({_id: _id}).then(function(data){
+		if(data){
+			responseData.message = '文章删除成功';
+		}else{
+			responseData.code = 1;
+			responseData.message = '文章删除失败';
+		}
 		res.send(responseData);
 	})
 })
