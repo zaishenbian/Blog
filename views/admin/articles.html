@@ -27,6 +27,14 @@
 		var $ = layui.jquery;
 		var common = layui.common;
 
+		//监听表单切换
+		element.on('tab(tab)', function(data){
+			var layId = $(this).attr('lay-id');
+			if(layId=="文章管理"){
+				articleTable.reload();
+			}
+		})
+
 		//表格渲染
 		var articleTable = table.render({
 			elem: '#articles'
