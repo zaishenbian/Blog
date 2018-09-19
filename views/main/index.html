@@ -3,8 +3,8 @@
 {% block content %}
   {% for article in articles %}
     <article>
-      <header>
-        <title class="fl">{{article.name}}</title>
+      <header class="clearfix">
+        <div class="title fl">{{article.name}}</div>
         <div class="fr">
           <span class="time">{{article.time|date('Y-m-d h:m:s', -8*60)}}</span>
           <span class="views">{{article.views}}</span>
