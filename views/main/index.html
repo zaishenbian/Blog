@@ -1,5 +1,23 @@
 {% extends '../layout.html' %}
 
 {% block content %}
-  content
+  {% for article in articles %}
+    <article>
+      <header>
+        <title class="fl">{{article.name}}</title>
+        <div class="fr">
+          <span class="time">{{article.time|date('Y-m-d h:m:s', -8*60)}}</span>
+          <span class="views">{{article.views}}</span>
+        </div>
+      </header>
+      <section>
+        {{article.description}}
+      </section>
+      <footer>
+        {% for tag in article.tags %}
+          <span class="tag">{{tag.name}}</span>
+        {% endfor %}
+      </footer>
+    </article>
+  {% endfor %}
 {% endblock %}

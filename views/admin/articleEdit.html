@@ -49,9 +49,6 @@
     //监听提交
     form.on('submit(article)', function(data){
       var formData = data.field;
-      console.log(formData);
-      console.log(formData["tags[0]"]);
-      return false;
       $.ajax({
         url: '/api/admin/addArticle',
         type: 'post',
