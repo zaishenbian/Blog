@@ -4,6 +4,9 @@ html,body{
   height: 100%;
   overflow: hidden;
 }
+body{
+  overflow-y: auto;
+}
 /*upword*/
 .upword{
   position: absolute;
@@ -57,9 +60,11 @@ html,body{
 .main-content{
   position: relative;
   margin-left: 270px;
+  overflow-y: auto;
 }
 .main-content .header-section{
   position: fixed;
+  z-index: 1;
   left: 280px;
   top: 0;
   width: 100%;
@@ -117,9 +122,9 @@ html,body{
 }
 .main-content .wrapper{
   padding: 60px 10px 30px;
-  background: rgb(243, 243, 243);
+  background: rgb(235, 235, 235);
 }
 .main-content .wrapper .artical-content{
-  min-height: 904px;
-  background: rgb(255, 255, 255);
+  /* min-height: 904px; */
+  background: rgb(235, 235, 235);
 }

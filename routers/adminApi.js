@@ -201,6 +201,23 @@ router.post('/addArticle', function(req, res){
 })
 
 /**
+ * 更新文章
+ */
+router.post('/updateArticle', function(req, res){
+	var _id = req.body._id;
+	var article = req.body;
+	articleModel.updateOne({_id: _id}, article).then((data) => {
+		if(data){
+			responseData.message = '文章更新成功';
+		}else{
+			responseData.code = 1;
+			responseData.message = '文章更新失败';
+		}
+		res.send(responseData);
+	})
+})
+
+/**
  * 删除文章
  */
 router.post('/deleteArticle', function(req, res){

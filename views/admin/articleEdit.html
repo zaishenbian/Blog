@@ -31,7 +31,7 @@
   </div>
   <div class="layui-form-item">
     <div class="layui-input-block">
-      <button class="layui-btn" lay-submit lay-filter="article">立即提交</button>
+      <button class="layui-btn" lay-submit lay-filter="article" article-id="{{article._id.toString()}}">立即提交</button>
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
@@ -49,13 +49,23 @@
     //监听提交
     form.on('submit(article)', function(data){
       var formData = data.field;
+      var btn = $(data.elem);
+      var article_id = btn.attr('article-id');
+      var url = '/api/admin/addArticle';
+      var tab_name = 'article-add';
+      //判断当前为添加文章还是修改文章
+      if(article_id!=''){
+        var url = '/api/admin/updateArticle';
+        tab_name = 'article-edit';
+        formData._id = article_id;
+      }
       $.ajax({
-        url: '/api/admin/addArticle',
+        url: url,
         type: 'post',
         data: formData,
         success: function(result){
           if(result.code == 0){
-            common.deleteTab('article-add');
+            common.deleteTab(tab_name);
           }
           layer.msg(result.message);
         }
