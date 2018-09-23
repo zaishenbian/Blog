@@ -5,33 +5,64 @@
 {% endblock %}
 
 {% block content %}
-  {% for article in articles %}
+  {% if article %}
     <article>
       <header class="clearfix">
-        <h1 class="title fl">
-          <a href="/article/{{article._id.toString()}}">{{article.name}}</a>
-        </h1>
-        <div class="fr">
-          <span class="time">
-            <i class="fa fa-fw fa-calendar"></i>&nbsp;
-            {{article.time|date('Y-m-d h:m:s', -8*60)}}
-          </span>
-          <span class="views">
-            <i class="fa fa-fw fa-star"></i>&nbsp;
-            阅读数：{{article.views}}
-          </span>
+        <div class="clearfix">
+          <h1 class="title fl">
+            <a href="/article/{{article._id.toString()}}">{{article.name}}</a>
+          </h1>
+          <div class="fr">
+            <span class="time">
+              <i class="fa fa-fw fa-calendar"></i>&nbsp;
+              {{article.time|date('Y-m-d h:m:s', -8*60)}}
+            </span>
+            <span class="views">
+              <i class="fa fa-fw fa-star"></i>&nbsp;
+              阅读数：{{article.views}}
+            </span>
+          </div>
+        </div>
+        <div class="clearfix" style="margin-top: 10px;">
+          <i class="fa fa-fw fa-tags"></i>&nbsp;
+          {% for tag in article.tags %}
+            <a class="tag color{{Math.ceil(Math.random()*5)}}" href="/tags/{{tag._id.toString()}}">{{tag.name}}</a>
+          {% endfor %}
         </div>
       </header>
-      <section>
-        {{article.description}}
+      <section class="markdown-body">
+        {% autoescape %} {{article.content}} {% endautoescape %}
       </section>
-      <footer  class="clearfix">
-        <i class="fa fa-fw fa-tags"></i>&nbsp;
-        {% for tag in article.tags %}
-          <a class="tag color{{Math.ceil(Math.random()*5)}}" href="/tags/{{tag.name}}">{{tag.name}}</a>
-        {% endfor %}
-        <a href="/article/{{article._id.toString()}}" class="fr more">阅读全文 >></a>
-      </footer>
     </article>
-  {% endfor %}
+  {% else %}
+    {% for article in articles %}
+      <article>
+        <header class="clearfix">
+          <h1 class="title fl">
+            <a href="/article/{{article._id.toString()}}">{{article.name}}</a>
+          </h1>
+          <div class="fr">
+            <span class="time">
+              <i class="fa fa-fw fa-calendar"></i>&nbsp;
+              {{article.time|date('Y-m-d h:m:s', -8*60)}}
+            </span>
+            <span class="views">
+              <i class="fa fa-fw fa-star"></i>&nbsp;
+              阅读数：{{article.views}}
+            </span>
+          </div>
+        </header>
+        <section>
+          {{article.description}}
+        </section>
+        <footer  class="clearfix">
+          <i class="fa fa-fw fa-tags"></i>&nbsp;
+          {% for tag in article.tags %}
+            <a class="tag color{{Math.ceil(Math.random()*5)}}" href="/tags/{{tag._id.toString()}}">{{tag.name}}</a>
+          {% endfor %}
+          <a href="/article/{{article._id.toString()}}" class="fr more">阅读全文 >></a>
+        </footer>
+      </article>
+    {% endfor %}
+  {% endif %}
 {% endblock %}

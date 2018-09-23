@@ -40,7 +40,7 @@ article footer{
     padding-top: 14px; 
 }
 
-article footer a.tag{
+article a.tag{
     display: inline-block;
     text-decoration: none;
     font-size: 12px;
@@ -54,7 +54,7 @@ article footer a.tag{
     opacity: 0.75;
 }
 
-article footer a.tag:hover{
+article a.tag:hover{
     opacity: 1;
     -webkit-transform: scale(1.06);
     -moz-transform: scale(1.06);
@@ -64,11 +64,11 @@ article footer a.tag:hover{
     border-color: #9c9;
 }
 
-article footer a.tag:hover::before{
+article a.tag:hover::before{
     border-right-color: #9c9;
 }
 
-article footer a.tag::before{
+article a.tag::before{
     content: " ";
     width: 0;
     height: 0;
@@ -78,7 +78,7 @@ article footer a.tag::before{
     border: 10px solid transparent;
 }
 
-article footer a.tag::after{
+article a.tag::after{
     content: " ";
     width: 4px;
     height: 4px;
@@ -149,6 +149,21 @@ a.tag.color5{
 }
 a.tag.color5::before{
     border-right-color: #88acdb;
+}
+
+/*文章内容区域*/
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px 0;
+    border: none;
+}
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
 }
 
 

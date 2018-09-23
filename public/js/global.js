@@ -1,8 +1,12 @@
 layui.use(['jquery'], function(){
   var $ = layui.$;
   
-  /*社会主义核心价值观*/
+  /*社会主义核心价值观(英文版)*/
+  /*
   var socialismWorth = ['prosperity','democracy','civility','harmony','freedom','equality','justice','the rule of law','patriotism','dedication','integrity','friendship'];
+  */
+  /*社会主义核心价值观(中文版)*/
+  var socialismWorth = ['富强','民主','文明','和谐','自由','平等','公正','法治','爱国','敬业','诚信','友善'];
   var worthIndex = 0;
   var myTimeout;
   $('body').click(function(event){

@@ -55,6 +55,9 @@ body{
 .left-side .item.active a{
   color: rgb(0, 180, 207);
 }
+.left-side .itemChildren{
+  padding: 0 60px;
+}
 
 /*main-content*/
 .main-content{
@@ -80,7 +83,7 @@ body{
   height: 50px;
   border-right: 1px solid #e7e7e7;
   margin-right: 5px;
-  /* cursor: pointer; */
+  cursor: pointer;
   transition: .3s;
 }
 .main-content .header-section .lines:hover{

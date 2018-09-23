@@ -3,5 +3,12 @@
       <li class="item {% if active === leftItem.url %} active {% endif %}">
         <a href="{{leftItem.url}}"><i class="fa fa-fw {{leftItem.icon}}"></i>&nbsp;{{leftItem.title}}</a>
       </li>
+      {% if leftItem.children %}
+        {% for childrenItem in leftItem.children %}
+          <li class="item itemChildren {% if active === childrenItem.url %} active {% endif %}">
+            <a href="{{childrenItem.url}}"><i class="fa fa-fw {{childrenItem.icon}}"></i>&nbsp;{{childrenItem.title}}</a>
+          </li>
+        {% endfor %}
+      {% endif %}
     {% endfor %}
   </ul>

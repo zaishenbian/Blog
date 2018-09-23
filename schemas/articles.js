@@ -7,7 +7,7 @@ var articleSchema = new Schema({
   //时间
   time: {
     type: Date,
-    default: new Date()
+    default: localDate()
   },
   //阅读量
   views: {
@@ -35,5 +35,11 @@ var articleSchema = new Schema({
     default: ''
   }
 })
+
+function localDate(){
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date;
+}
 
 module.exports = articleSchema;
