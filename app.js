@@ -57,6 +57,7 @@ app.use(session({
 app.use('/admin', require('./routers/admin'));
 app.use('/api', require('./routers/api'));
 app.use('/', require('./routers/main'));
+app.use('/codekeepApi', require('./routers/codekeep'))
 
 //连接数据库
 mongoose.connect('mongodb://localhost:27017/blog',{useNewUrlParser: true},function(err){

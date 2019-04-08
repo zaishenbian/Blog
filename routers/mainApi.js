@@ -19,9 +19,9 @@ router.use(function(req, res, next){
 	if(req.session.user){
 		next();
 	}else{
-    responseData.code = 1;
-    responseData.message = '用户未登录';
-    res.send(responseData);
+		responseData.code = 1;
+		responseData.message = '用户未登录';
+		res.send(responseData);
 	}
 })
 
