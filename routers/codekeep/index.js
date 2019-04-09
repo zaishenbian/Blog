@@ -20,7 +20,7 @@ router.post('/catalog', async (req, res) => {
     if (name === '') {
         responseData.code = 1
         responseData.message = '目录名称不能为空'
-        res.json(responseData)
+        res.send(responseData)
     }
     let isExist = await CatalogModel.find({ name: name })
     if (isExist.length === 0) {
@@ -35,30 +35,36 @@ router.post('/catalog', async (req, res) => {
         responseData.code = 1
         responseData.message = '目录名称已存在'
     }
-    res.json(responseData)
+    res.send(responseData)
 })
 
 // 查询目录接口
 router.get('/catalog', async (req, res) => {
-    let result = await CatalogModel.aggregate([
-        {
-            $lookup: {
-                from: 'code',
-                localField: 'codeList',
-                foreignField: '_id',
-                as: 'children'
+    try {
+        let result = await CatalogModel.aggregate([
+            {
+                $lookup: {
+                    from: 'code',
+                    localField: 'codeList',
+                    foreignField: '_id',
+                    as: 'children'
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    label: '$name',
+                    value: '$_id',
+                    children: 1
+                }
             }
-        },
-        {
-            $project: {
-                _id: 0,
-                label: '$name',
-                value: '$_id',
-                children: 1
-            }
-        }
-    ])
-    res.json(result)
+        ])
+        responseData.data = result
+    } catch (error) {
+        responseData.code = 1
+        responseData.message = '代码块目录获取失败'
+    }
+    res.send(responseData)
 })
 
 // 代码块名称唯一性校验
@@ -70,7 +76,7 @@ router.post('/uniqueName', async (req, res) => {
         responseData.code = 1
         responseData.message = '代码块名称已存在'
     }
-    res.json(responseData)
+    res.send(responseData)
 })
 
 // 新增代码块接口
@@ -92,7 +98,7 @@ router.post('/code', async (req, res) => {
             responseData.message = '数据库写入失败'
         }
     }
-    res.json(responseData)
+    res.send(responseData)
 })
 
 // 删除代码块接口
@@ -106,7 +112,7 @@ router.delete('/code/:id', async (req, res) => {
         responseData.code = 1
         responseData.message = '代码块删除失败'
     }
-    res.json(responseData)
+    res.send(responseData)
 })
 
 // 修改代码块接口
@@ -130,7 +136,7 @@ router.put('/code/:id', async (req, res) => {
         responseData.code = 1
         responseData.message = '代码块修改失败'
     }
-    res.json(responseData)
+    res.send(responseData)
 })
 
 // 查询代码块
@@ -144,7 +150,7 @@ router.get('/code/:id', async (req, res) => {
         responseData.code = 1
         responseData.message = '查询代码块失败'
     }
-    res.json(responseData)
+    res.send(responseData)
 })
 
 module.exports = router
