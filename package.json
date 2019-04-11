@@ -25,6 +25,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "marked": "^0.5.0",
+    "moment": "^2.24.0",
     "mongoose": "^5.2.3",
     "swig": "^1.4.2"
   }

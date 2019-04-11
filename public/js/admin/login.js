@@ -8,6 +8,8 @@ layui.use(['jquery', 'form', 'layer'], function(){
   var $loginBox = $('.admin-user-login-body');
   var $goRegister = $('.admin-register');
   var $goLogin = $('.admin-login');
+  var $loginPwd = $('.admin-user-login-body input[name=password]')
+  var $loginUsr = $('.admin-user-login-body input[name=username]')
   $goRegister.on('click', function(){
     $loginBox.hide();
     $registerBox.show();
@@ -19,14 +21,16 @@ layui.use(['jquery', 'form', 'layer'], function(){
 
   //监听注册表单提交
   form.on('submit(LAY-user-register)', function(formdata){
-    console.log(formdata.field);
+    // md5加密
+    formdata.field.password = MD5(formdata.field.password)
+    formdata.field.repassword = MD5(formdata.field.repassword)
+    // 发送注册请求
     $.ajax({
       url: '/api/admin/register',
       async: false,
       type: 'post',
       data: formdata.field,
       success: function(result){
-        console.log(result);
         if(result.code==0){
           $goLogin.click();
         }else{
@@ -37,7 +41,26 @@ layui.use(['jquery', 'form', 'layer'], function(){
   });
 
   //监听登陆表单提交
-  form.on('submit(LAY-user-login-submit)', function(data){
+  form.on('submit(LAY-user-login-submit)', login);
+
+  // 登录密码框绑定回车事件
+  $loginPwd.bind('keypress', function($event) {
+    if ($event.keyCode === 13) {
+      var data = {
+        field: {
+          username: $loginUsr.val(),
+          password: $loginPwd.val()
+        }
+      }
+      login(data)
+    }
+  })
+
+  // 登录
+  function login(data) {
+    // md5加密
+    data.field.password = MD5(data.field.password)
+    // 发送登录请求
     $.ajax({
       url: '/api/admin/login',
       async: false,
@@ -53,5 +76,5 @@ layui.use(['jquery', 'form', 'layer'], function(){
         }
       }
     });
-  });
+  }
 });

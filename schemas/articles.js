@@ -7,7 +7,7 @@ var articleSchema = new Schema({
   //时间
   time: {
     type: Date,
-    default: localDate()
+    default: () => localDate()
   },
   //阅读量
   views: {
