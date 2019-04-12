@@ -66,7 +66,7 @@ mongoose.connect('mongodb://localhost:27017/blog',{useNewUrlParser: true},functi
     }else{
         console.log('数据库连接成功');
         //监听http请求
-        app.listen(8080);
+        app.listen(80);
     }
 });
 
