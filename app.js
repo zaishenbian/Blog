@@ -16,6 +16,9 @@ var init = require('./routers/init');
 
 //创建app应用 => NodeJS http.createServer();
 var app = express();
+var server = require('http').Server(app)
+//创建socket应用
+var io = require('socket.io')(server)
 
 //配置应用模板
 //定义当前应用所使用的模板引擎
@@ -66,9 +69,12 @@ mongoose.connect('mongodb://localhost:27017/blog',{useNewUrlParser: true},functi
     }else{
         console.log('数据库连接成功');
         //监听http请求
-        app.listen(80);
+        server.listen(8080);
     }
 });
+
+// 监听socket连接
+io.of('/GoBang').on('connection', require('./routers/gobang'))
 
 //监听http请求
 // app.listen(8080);
