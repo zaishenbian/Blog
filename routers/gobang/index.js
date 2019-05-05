@@ -1,6 +1,8 @@
 let Redis = require('ioredis')
 let redis = new Redis()
 
+let currentSide = 2
+
 function GoBang(socket) {
     /**
      * 加入棋局
@@ -10,6 +12,7 @@ function GoBang(socket) {
         if (msg.status === 1 || msg.status === 2) {
             redis.set(msg.status, msg.name)
             socket.broadcast.emit('join', msg)
+            socket.emit('join', msg)
         }
         redis.set(msg.name, {
             id: socket.id,
@@ -21,19 +24,30 @@ function GoBang(socket) {
         if (msg.status === 1 || msg.status === 2) {
             redis.del(msg.status)
             socket.broadcast.emit('leave', msg)
+            socket.emit('leave', msg)
         }
-        redis.del(name)
+        redis.del(msg.name)
     })
     /**
      * 落子
      * msg: { name: 姓名, status: 身份, coord: 落子位置 }
      */
-    socket.on('moveChess', function(msg) {
-        redis.get(msg.status, function(err, data) {
-            if (data === msg.name) {
-                socket.broadcast.emit('moveChess', msg)
+    socket.on('moveChess', async function(msg) {
+        let result = await Promise.all([redis.get(1), redis.get(2)])
+        if (result[0] !== null && result[1] !== null && msg.status === currentSide) {
+            socket.broadcast.emit('moveChess', msg)
+            socket.emit('moveChess', msg)
+            if (currentSide === 2) {
+                currentSide = 1
+            } else if (currentSide === 1) {
+                currentSide = 2
             }
-        })
+        }
+    })
+    // 重新开始
+    socket.on('restart', function() {
+        socket.broadcast.emit('restart')
+        socket.emit('restart')
     })
     // 创建用户
     socket.on('createUser', function(name) {
